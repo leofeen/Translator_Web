@@ -1,0 +1,33 @@
+{% extends 'translator_web/base.html' %}
+
+{% block links %}
+    {% load static %}
+    <script type="text/javascript" src="{% static 'translator_web/libs/jQuery.js' %}"></script>
+    <script type="text/javascript" src="{% static 'translator_web/scripts/translation.js' %}"></script>
+{% endblock links %}
+
+{% block content %}
+    <h1 class="translator-title">Pseudocode translator</h1>
+    <div class="translator-description-container">
+        <h3 class="translator-description-title">Description</h3>
+        <p class="translator-description">This translator was developed for pseudocode to Python. You can read specification here: (WIP)</p>
+    </div>
+    <form action="{% url 'translator_web:translate' %}" class="form-translate" method="GET">
+        <div class="translate-language-container">
+            <p class="translate-languge-description">Select language on which pseudo code is written:</p>
+            <select class="translate-language-select" name="translate-language">
+                <option value="en" selected>English</option>
+                <option value="ru">Русский</option>
+            </select>
+        </div>
+        <div class="buttons-container">
+            <input type="reset" value="Reset">
+            <button class="button-translate">Translate</button>
+        </div>
+        <textarea class="translate-text" name="translate-text" placeholder="Input your pseudocode here..."></textarea>
+    </form>
+    <div class="output-container">
+        <h3 class="output-title">Output will be here:</h3>
+        <pre class="code-output-wrapper"><code class="code-output"></code></pre>
+    </div>
+{% endblock content %}

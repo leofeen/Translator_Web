@@ -1,0 +1,41 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+.content-container {
+    width: 1200px;
+    margin: auto;
+}
+
+.translate-text {
+    width: 100%;
+    min-height: 200px;
+    resize: none;
+}
+
+.translator-description-container {
+    margin-bottom: 20px;
+}
+
+.translate-language-container {
+    margin-bottom: 10px;
+}
+
+.buttons-container {
+    margin-bottom: 4px;
+}
+
+.code-output-wrapper {
+    width: 100%;
+    min-height: 200px;
+    border: 1px solid black;
+    border-radius: 5px;
+    margin-top: 5px;
+    padding: 3px;
+}
+
+.output-container {
+    margin-top: 10px;
+}
