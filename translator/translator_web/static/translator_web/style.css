@@ -13,6 +13,13 @@
     width: 100%;
     min-height: 200px;
     resize: none;
+    border: none;
+    line-height: inherit;
+    font-size: inherit;
+}
+
+.translate-text:focus-visible{
+    outline: none;
 }
 
 .translator-description-container {
@@ -38,4 +45,30 @@
 
 .output-container {
     margin-top: 10px;
+}
+
+.textarea-line-numbers {
+    overflow: hidden;
+    flex-grow: 0;
+    flex-basis: 30px;
+    border-right: 1px solid #c0c0c0;
+    margin-right: 8px;
+    padding-top: 1px;
+}
+
+.lined-textarea-container {
+    display: flex;
+    border: 1px solid #c0c0c0;
+    font-family: monospace;
+    line-height: 1.2;
+}
+
+.lined-textarea-container:focus-within {
+    outline: 2px solid blue;
+}
+
+.line-number {
+    font-size: inherit;
+    text-align: right;
+    line-height: inherit;
 }

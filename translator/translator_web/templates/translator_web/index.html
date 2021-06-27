@@ -4,6 +4,7 @@
     {% load static %}
     <script type="text/javascript" src="{% static 'translator_web/libs/jQuery.js' %}"></script>
     <script type="text/javascript" src="{% static 'translator_web/scripts/translation.js' %}"></script>
+    <script type="text/javascript" src="{% static 'translator_web/scripts/generics.js' %}"></script>
 {% endblock links %}
 
 {% block content %}
@@ -24,7 +25,12 @@
             <input type="reset" value="Reset">
             <button class="button-translate">Translate</button>
         </div>
-        <textarea class="translate-text" name="translate-text" placeholder="Input your pseudocode here..."></textarea>
+        <div class="lined-textarea-container">
+            <div class="textarea-line-numbers">
+                <div class="line-number">1</div>
+            </div>
+            <textarea class="translate-text" name="translate-text" placeholder="Input your pseudocode here..."></textarea>
+        </div>
     </form>
     <div class="output-container">
         <h3 class="output-title">Output will be here:</h3>

@@ -56,27 +56,30 @@ def translate(input_data: str, language: str):
         raise SyntaxError('Expected main block of programm')
     input_data = input_data.split('\n')
 
+    # Count number og lines for tracebacks
+    line_count = 0
+
     # Parse all enters to one string in output
     input_string = ''
     first_input = True
     while input_data[0].upper().find(language_reference['begin']) == -1:
+        line_count += 1
         input_string_line = input_data[0]
         input_string_line = input_string_line.strip().strip('\t')
-        if input_string_line != '':    
+        if input_string_line != '':
+            if not input_string_line.upper().startswith(language_reference['enter']):
+                raise SyntaxError(f'Unexpected keyword at line {line_count}: {input_string_line}')
             enter_keyword, string_element, number_of_repetition = input_string_line.split()
-            if enter_keyword.upper() != language_reference['enter']:
-                raise SyntaxError(f'Unexpected keyword: {enter_keyword}')
             if first_input:
                 first_input = False
             else:
                 input_string += ' + '
-            if int(number_of_repetition) != 1:
+            if int(number_of_repetition) > 1:
                 input_string += f'\'{string_element}\'*{number_of_repetition}'
             elif int(number_of_repetition) == 1:
                 input_string += f'\'{string_element}\'' # Do not write 'a'*1
             else:
-                raise SyntaxError(f'Expected positive number of string element\
-                                    repetition, but {number_of_repetition} was given')
+                raise SyntaxError(f'Type Error at line {line_count}: expected positive number of string element repetition, but {number_of_repetition} was given')
         del input_data[0]
     if input_string != '':
         output_data += f'string = {input_string}\n'
@@ -85,8 +88,8 @@ def translate(input_data: str, language: str):
     # Every programm should have main block:
     # starts with 'begin' token,
     # ends with 'end' token - this is at least 2 lines
-    if len(input_data) <= 2:
-        raise SyntaxError('Unexpected pseudocode structure')
+    if len(input_data) < 2:
+        raise SyntaxError(f'Unexpected pseudocode structure after line {line_count}')
 
     # Parse main block of pseudocode programm
     number_of_spaces = 0
@@ -96,6 +99,7 @@ def translate(input_data: str, language: str):
     # so excluding two or more blank line in a row
     previous_line_is_blank = False
     while input_data[0].upper().strip().strip('\t') != language_reference['end']:
+        line_count += 1
         # Preformating line to handle parsing more easily
         line = input_data[0]
         line = line.strip().strip('\t')
@@ -110,7 +114,7 @@ def translate(input_data: str, language: str):
         elif line.upper() == language_reference['end_while']:
             number_of_spaces -= 4
             if not in_while:
-                raise SyntaxError('Unexpected end of while block')
+                raise SyntaxError(f'Unexpected end of while block at line {line_count}')
             in_while -= 1
             if not previous_line_is_blank:
                 output_data += '\n'
@@ -118,7 +122,7 @@ def translate(input_data: str, language: str):
         elif line.upper() == language_reference['end_if']:
             number_of_spaces -= 4
             if not in_if:
-                raise SyntaxError('Unexpected end of if block')
+                raise SyntaxError(f'Unexpected end of if block at line {line_count}')
             in_if -= 1
             if not previous_line_is_blank :
                 output_data += '\n'
@@ -134,7 +138,7 @@ def translate(input_data: str, language: str):
                         or condition.upper() == language_reference['or']
                         or condition.upper() == language_reference['and'] 
                         or condition.upper() == language_reference['not']):
-                    raise SyntaxError(f'Unexpected keyword: {condition}')
+                    raise SyntaxError(f'Unexpected keyword at line {line_count}: {condition}')
                 if condition.upper() == language_reference['or']:
                     output_data += ' or'
                 elif condition.upper() == language_reference['and']:
@@ -156,7 +160,7 @@ def translate(input_data: str, language: str):
                         or condition.upper() == language_reference['or']
                         or condition.upper() == language_reference['and'] 
                         or condition.upper() == language_reference['not']):
-                    raise SyntaxError(f'Unexpected keyword: {condition}')
+                    raise SyntaxError(f'Unexpected keyword at line {line_count}: {condition}')
                 if condition.upper() == language_reference['or']:
                     output_data += ' or'
                 elif condition.upper() == language_reference['and']:
@@ -172,28 +176,28 @@ def translate(input_data: str, language: str):
             command = line[len(language_reference['then'])+1:]
             if command != '':
                 if not command.startswith(language_reference['replace']):
-                    raise SyntaxError(f'Unexpected command: {command}')
-                args = command[len(language_reference['replace'])+1:-1].split(', ')
+                    raise SyntaxError(f'Unexpected command at line {line_count}: {command}')
+                args = command[len(language_reference['replace'])+1:-1].split(',')
                 if len(args) != 2:
-                    raise SyntaxError(f'Replace command expected 2 arguments, but {len(args)} was given')
-                output_data += ' '*number_of_spaces + f'string = string.replace(\'{args[0]}\', \'{args[1]}\', 1)\n'
+                    raise SyntaxError(f'Type Error at line {line_count}: replace command expected 2 arguments, but {len(args)} was given')
+                output_data += ' '*number_of_spaces + f'string = string.replace(\'{args[0]}\', \'{args[1].strip()}\', 1)\n'
         elif line.upper().startswith(language_reference['else']):
             previous_line_is_blank = False
             output_data += ' '*(number_of_spaces-4) + 'else:\n'
             command = line[len(language_reference['else'])+1:]
             if command != '':
                 if not command.startswith(language_reference['replace']):
-                    raise SyntaxError(f'Unexpected command: {command}')
-                args = command[len(language_reference['replace'])+1:-1].split(', ')
+                    raise SyntaxError(f'Unexpected command at line {line_count}: {command}')
+                args = command[len(language_reference['replace'])+1:-1].split(',')
                 if len(args) != 2:
-                    raise SyntaxError(f'Replace command expected 2 arguments, but {len(args)} was given')
-                output_data += ' '*number_of_spaces + f'string = string.replace(\'{args[0]}\', \'{args[1]}\', 1)\n'
+                    raise SyntaxError(f'Type Error at line {line_count}: replace command expected 2 arguments, but {len(args)} was given')
+                output_data += ' '*number_of_spaces + f'string = string.replace(\'{args[0]}\', \'{args[1].strip()}\', 1)\n'
         elif line.startswith(language_reference['replace']):
             previous_line_is_blank = False
-            args = line[len(language_reference['replace'])+1:-1].split(', ')
+            args = line[len(language_reference['replace'])+1:-1].split(',')
             if len(args) != 2:
-                raise SyntaxError(f'Replace command expected 2 arguments, but {len(args)} was given')
-            output_data += ' '*number_of_spaces + f'string = string.replace(\'{args[0]}\', \'{args[1]}\', 1)\n'
+                raise SyntaxError(f'Type Error at line {line_count}: replace command expected 2 arguments, but {len(args)} was given')
+            output_data += ' '*number_of_spaces + f'string = string.replace(\'{args[0]}\', \'{args[1].strip()}\', 1)\n'
         elif line.upper() == language_reference['str_out']:
             previous_line_is_blank = False
             output_data += ' '*number_of_spaces + 'print(string)\n'
@@ -207,7 +211,7 @@ def translate(input_data: str, language: str):
             output_data += ' '*(number_of_spaces + 4) + 'if element.isnumeric(): summ += int(element)\n'
             output_data += ' '*number_of_spaces + 'print(summ)\n'
         else:
-            raise SyntaxError(f'Unexpected keyword: {line}')
+            raise SyntaxError(f'Unexpected keyword at line {line_count}: {line}')
 
         del input_data[0]
     
