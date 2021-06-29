@@ -55,6 +55,7 @@ option {
     border-radius: 5px;
     margin-top: 5px;
     padding: 3px;
+    margin-bottom: 15px;
 }
 
 .output-container {
@@ -135,6 +136,7 @@ option {
 
 .specification-list {
     padding-left: 15px;
+    margin-bottom: 15px;
 }
 
 @media (max-width: 1250px) {
