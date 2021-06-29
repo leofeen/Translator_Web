@@ -106,7 +106,9 @@ option {
 }
 
 .specification-header {
-    padding: 15px 70px;
+    width: 1200px;
+    margin: auto;
+    padding: 15px 0;
 }
 
 .button-reset-translate, .button-translate {
@@ -129,4 +131,36 @@ option {
 
 .button-reset-translate, .button-translate, .translate-language-select {
     cursor: pointer;
+}
+
+.specification-list {
+    padding-left: 15px;
+}
+
+@media (max-width: 1250px) {
+    .content-container, .specification-header {
+        width: 768px;
+    }
+}
+
+@media (max-width: 780px) {
+    .content-container, .specification-header {
+        width: 390px;
+    }
+}
+
+@media (max-width: 410px) {
+    .content-container, .specification-header {
+        width: 320px;
+    }
+
+    .specification-header {
+        text-align: center;
+    }
+}
+
+@media (max-width: 330px) {
+    .content-container, .specification-header {
+        width: 310px;
+    }
 }
