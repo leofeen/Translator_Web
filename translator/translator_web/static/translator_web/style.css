@@ -80,10 +80,20 @@ option {
     border: 1px solid #c0c0c0;
     font-family: monospace;
     line-height: 1.2;
+    position: relative;
 }
 
 .lined-textarea-container:focus-within {
     outline: 2px solid blue;
+}
+
+.lined-textarea-container::after {
+    position: absolute;
+    display: inline;
+    content: 'Ctrl + Space to insert double space';
+    right: 0;
+    bottom: -14px;
+    color: #c0c0c0;
 }
 
 .line-number {
@@ -148,6 +158,10 @@ option {
 @media (max-width: 780px) {
     .content-container, .specification-header {
         width: 390px;
+    }
+
+    .output-container {
+        margin-top: 20px;
     }
 }
 

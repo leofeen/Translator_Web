@@ -11,7 +11,7 @@ def translate(input_data: str, language: str):
     # ends with 'end' token - checking on it
     if not (input_data.upper().find(language_reference['begin']) != -1 
             and input_data.upper().find(language_reference['end']) != -1):
-        raise SyntaxError('Expected main block of programm')
+        raise SyntaxError('Expected main block of program')
     input_data = input_data.split('\n')
 
     # Count number og lines for tracebacks
@@ -64,6 +64,9 @@ def translate(input_data: str, language: str):
         while line.find(language_reference['find'] + ' ') != -1 or line.find(language_reference['replace'] + ' ') != -1:
             line = line.replace(language_reference['find'] + ' ', language_reference['find'])
             line = line.replace(language_reference['replace'] + ' ', language_reference['replace'])
+        while line.find('( ') != -1 or line.find(' )') != -1:
+            line = line.replace('( ', '(')
+            line = line.replace(' )', ')')
 
         if line.upper() == language_reference['begin']:
             pass
