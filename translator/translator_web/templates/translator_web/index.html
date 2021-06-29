@@ -11,18 +11,24 @@
     <h1 class="translator-title">Pseudocode translator</h1>
     <div class="translator-description-container">
         <h3 class="translator-description-title">Description</h3>
-        <p class="translator-description">This translator was developed for pseudocode to Python. You can read specification here: (WIP)</p>
+        <p class="translator-description">This translator was developed for translating pseudocode to Python. You can read specification for commands in pseudocode here:</p>
+        <ul class="translator-specifications-list">
+            <li class="specification-item"><a href="{% url 'translator_web:specification' 'en' %}" class="specification-link">English specification</a></li>
+            <li class="specification-item"><a href="{% url 'translator_web:specification' 'ru' %}" class="specification-link">Спецификация на русском</a></li>
+        </ul>
+        <p class="examples-link-container">You can find Python script for this translator with some examples of translation (in.psred and out.py files) here: <a class="github-link" href="https://github.com/leofeen/Translator_EGE12">Translator</a></p>
+        <p class="author-section">Author: <a href="https://github.com/leofeen">Leofeen</a></p>
     </div>
     <form action="{% url 'translator_web:translate' %}" class="form-translate" method="GET">
         <div class="translate-language-container">
-            <p class="translate-languge-description">Select language on which pseudo code is written:</p>
+            <p class="translate-languge-description">Select language on which pseudocode is written:</p>
             <select class="translate-language-select" name="translate-language">
                 <option value="en" selected>English</option>
                 <option value="ru">Русский</option>
             </select>
         </div>
         <div class="buttons-container">
-            <input type="reset" value="Reset">
+            <input class="button-reset-translate" type="reset" value="Reset">
             <button class="button-translate">Translate</button>
         </div>
         <div class="lined-textarea-container">

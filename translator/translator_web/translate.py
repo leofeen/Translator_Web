@@ -4,49 +4,7 @@ def translate(input_data: str, language: str):
     Commands are case sensitive.
     """
     output_data = ''
-    # Languge reference keywords must be in upper case
-    if language == 'ru':
-        language_reference = {
-            'begin': 'НАЧАЛО',
-            'enter': 'ВВОД',
-            'end': 'КОНЕЦ',
-            'find': 'нашлось',
-            'replace': 'заменить',
-            'end_while': 'КОНЕЦ ПОКА',
-            'end_if': 'КОНЕЦ ЕСЛИ',
-            'if': 'ЕСЛИ',
-            'while': 'ПОКА',
-            'or': 'ИЛИ',
-            'and': 'И',
-            'not': 'НЕ',
-            'then': 'ТО',
-            'else': 'ИНАЧЕ',
-            'str_out': 'ВЫВОД СТРОКИ',
-            'len_out': 'ВЫВОД ДЛИНЫ',
-            'sum_out': 'ВЫВОД СУММЫ',
-        }
-    elif language == 'en':
-        language_reference = {
-            'begin': 'BEGIN',
-            'enter': 'ENTER',
-            'end': 'END',
-            'find': 'find',
-            'replace': 'replace',
-            'end_while': 'END WHILE',
-            'end_if': 'END IF',
-            'if': 'IF',
-            'while': 'WHILE',
-            'or': 'OR',
-            'and': 'AND',
-            'not': 'NOT',
-            'then': 'THEN',
-            'else': 'ELSE',
-            'str_out': 'OUTPUT STRING',
-            'len_out': 'OUTPUT LENGTH',
-            'sum_out': 'OUTPUT SUM',
-        }
-    else:
-        raise ValueError(f'Unsopported language: {language}')
+    language_reference = get_language_reference(language)
 
     # Every programm should have main block:
     # starts with 'begin' token,
@@ -223,3 +181,82 @@ def translate(input_data: str, language: str):
         raise SyntaxError('Expected end of while block, but got EOF') # End-Of-File
 
     return output_data
+
+def get_language_reference(language: str):
+    # Languge reference keywords must be in upper case
+    if language == 'ru':
+        language_reference = {
+            'begin': 'НАЧАЛО',
+            'enter': 'ВВОД',
+            'end': 'КОНЕЦ',
+            'find': 'нашлось',
+            'replace': 'заменить',
+            'end_while': 'КОНЕЦ ПОКА',
+            'end_if': 'КОНЕЦ ЕСЛИ',
+            'if': 'ЕСЛИ',
+            'while': 'ПОКА',
+            'or': 'ИЛИ',
+            'and': 'И',
+            'not': 'НЕ',
+            'then': 'ТО',
+            'else': 'ИНАЧЕ',
+            'str_out': 'ВЫВОД СТРОКИ',
+            'len_out': 'ВЫВОД ДЛИНЫ',
+            'sum_out': 'ВЫВОД СУММЫ',
+        }
+    elif language == 'en':
+        language_reference = {
+            'begin': 'BEGIN',
+            'enter': 'ENTER',
+            'end': 'END',
+            'find': 'find',
+            'replace': 'replace',
+            'end_while': 'END WHILE',
+            'end_if': 'END IF',
+            'if': 'IF',
+            'while': 'WHILE',
+            'or': 'OR',
+            'and': 'AND',
+            'not': 'NOT',
+            'then': 'THEN',
+            'else': 'ELSE',
+            'str_out': 'OUTPUT STRING',
+            'len_out': 'OUTPUT LENGTH',
+            'sum_out': 'OUTPUT SUM',
+        }
+    else:
+        raise ValueError(f'Unsopported language: {language}')
+    return language_reference
+
+def get_language_description(language: str):
+    if language == 'ru':
+        language_description = {
+            'НАЧАЛО ... КОНЕЦ': 'Операторные скобки для основного блока программы.',
+            'ВВОД str number': 'Добавляет <code class="code-snippet">number</code> раз к строке для обработки подстроку <code class="code-snippet">str</code>. Может идти только перед <code class="code-snippet">НАЧАЛО</code>.',
+            'нашлось(str)': 'Проверяет наличие подстроки <code class="code-snippet">str</code> в строке для обработки. Возвращает True, если подстрока найдена. Иначе возвращает False.',
+            'заменить(old, new)': 'Заменяет первую слева подстроку <code class="code-snippet">old</code> на подстроку new в строке для обработки. Если подстрока old отсутствует, то команда не выполняется.',
+            'ПОКА condition ... КОНЕЦ ПОКА': 'Объявление блока цикла Пока. Выполняются строки внутри блока, пока <code class="code-snippet">condition</code> возвращает True.',
+            'ЕСЛИ condition ТО ... ИНАЧЕ ... КОНЕЦ ЕСЛИ': 'Объявление блока Если/То/Иначе. Если <code class="code-snippet">condition</code> возвращает True, то выполняются строка с <code class="code-snippet">ТО</code> или строки между <code class="code-snippet">ТО</code> и <code class="code-snippet">ИНАЧЕ</code>/<code class="code-snippet">КОНЕЦ ЕСЛИ</code>, иначе выполняется строка с <code class="code-snippet">ИНАЧЕ</code> или строки между <code class="code-snippet">ИНАЧЕ</code> и <code class="code-snippet">КОНЕЦ ЕСЛИ</code>, если такие присутствуют.',
+            'ВЫВОД СТРОКИ': 'Печатает строку для обработки в текущем состоянии.',
+            'ВЫВОД ДЛИНЫ': 'Печатает длину строки для обработки в текущем состоянии.',
+            'ВЫВОД СУММЫ': 'Печатет сумму всех цифр в строке для обработки в текущем состоянии.',
+            '// ...': 'Строка, начинающаяся с <code class="code-snippet">//</code>, является комментарием, не влияющим на исполнение кода.',
+            'И, ИЛИ, НЕ': 'Логические операторы, использующиеся в <code class="code-snippet">condition</code> в <code class="code-snippet">ЕСЛИ</code> и <code class="code-snippet">ПОКА</code> между несколькими <code class="code-snippet">нашлось()</code>.',
+        }
+    elif language == 'en':
+        language_description = {
+            'BEGIN ... END': 'Declaration of main block of the program.',
+            'ENTER str number': 'Appends substring <code class="code-snippet">str</code> to input string <code class="code-snippet">number</code> times. This must go before <code class="code-snippet">BEGIN</code> statement.',
+            'find(str)': 'Check if substing <code class="code-snippet">str</code> is a part of input string. Returns True if <code class="code-snippet">str</code> was found. Returns False otherwise.',
+            'replace(old, new)': 'Replace first from the left substring <code class="code-snippet">old</code> by substring <code class="code-snippet">new</code> in input string. If there is no inclusion of substring <code class="code-snippet">old</code> in input string, than nothing happens.',
+            'WHILE condition ... END WHILE': 'Declaration of While block. Lines inside block will be executed, while <code class="code-snippet">condition</code> returns True.',
+            'IF condition THEN ... ELSE ... END IF': 'Declaration of If/Then/Else block. If <code class="code-snippet">condition</code> returns True, then line with <code class="code-snippet">THEN</code> or lines between <code class="code-snippet">THEN</code> and <code class="code-snippet">ELSE</code>/<code class="code-snippet">END IF</code> will be executed, else line with <code class="code-snippet">ELSE</code> or lines between <code class="code-snippet">ELSE</code> and <code class="code-snippet">END IF</code> will be executed, if there is one.',
+            'OUTPUT STRING': 'Print input string in current state of processing.',
+            'OUTPUT LENGTH': 'Print length input string in current state of processing.',
+            'OUTPUT SUM': 'Print sum of all digits in input string in current state of processing.',
+            '// ...': 'Line that starts with <code class="code-snippet">//</code>, considered a сomment and does not affect program execution.',
+            'AND, OR, NOT': 'Logic operands that used in <code class="code-snippet">condition</code> inside <code class="code-snippet">IF</code> and <code class="code-snippet">WHILE</code> statements between several <code class="code-snippet">find()</code>.',
+        }
+    else:
+        raise ValueError(f'Unsopported language: {language}')
+    return language_description

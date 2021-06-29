@@ -1,0 +1,13 @@
+{% extends 'translator_web/base.html' %}
+
+{% block header %}
+    <header class="specification-header"><a class="back-link" href="{% url 'translator_web:index' %}">{{ message_back }}</a></header>
+{% endblock header %}
+
+{% block content %}
+    <ul class="specification-list">
+        {% for token, description in language_description %}
+            <li class="token-description"><code class="code-snippet">{{ token }}</code>: {{ description }}</li>
+        {% endfor %}
+    </ul>
+{% endblock content %}

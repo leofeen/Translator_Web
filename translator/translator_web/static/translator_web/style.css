@@ -4,6 +4,20 @@
     padding: 0;
 }
 
+a {
+    color: black;
+}
+
+a:hover {
+    color: blue;
+}
+
+option {
+    border: initial;
+    color: initial;
+    background-color: initial;
+}
+
 .content-container {
     width: 1200px;
     margin: auto;
@@ -54,6 +68,10 @@
     border-right: 1px solid #c0c0c0;
     margin-right: 8px;
     padding-top: 1px;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 .lined-textarea-container {
@@ -71,4 +89,44 @@
     font-size: inherit;
     text-align: right;
     line-height: inherit;
+}
+
+.token-description {
+    margin-bottom: 10px;
+}
+
+.code-snippet {
+    background-color: #dcdcdc;
+    border-radius: 6px;
+    padding: .2em .4em;
+}
+
+.translator-specifications-list {
+    padding-left: 30px;
+}
+
+.specification-header {
+    padding: 15px 70px;
+}
+
+.button-reset-translate, .button-translate {
+    background: white;
+    padding: 1px 4px;
+    border: 2px black solid;
+    border-radius: 6px;
+}
+
+.button-reset-translate:hover, .button-translate:hover, .translate-language-select:hover {
+    border-color: blue;
+    color: blue;
+}
+
+.translate-language-select {
+    border: 2px solid black;
+    border-radius: 6px;
+    padding: 1px 0 1px 4px;
+}
+
+.button-reset-translate, .button-translate, .translate-language-select {
+    cursor: pointer;
 }
